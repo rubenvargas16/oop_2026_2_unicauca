@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
 using namespace std;
 
 class Autor
@@ -133,35 +132,35 @@ private:
   vector<Libro> libros;
 
 public:
-  Estante(string nombre, vector<Libro> libros)
+  Estante()
   {
-    this->nombre = nombre;
-    this->libros = libros;
+    this->nombre = "";
   }
 
-  void setNombre(string nombre) { this->nombre = nombre; }
-  void setVector(vector<Libro> libros) { this->libros = libros; }
-  string getNombre() { return this->nombre; }
-  vector<Libro> getLibros() { return this->libros; }
+  Estante(string nombre)
+  {
+    this->nombre = nombre;
+  }
+
+  string getNombre() const { return this->nombre; }
 
   void agregarLibro(Libro libro)
   {
     this->libros.push_back(libro);
   }
 
-  int buscarLibro(string title)
+  int cantidadLibros() const
   {
-    int index = -1;
+    return this->libros.size();
+  }
+
+  void listarLibros()
+  {
+    cout << "Estante: " << this->nombre << endl;
     for (int i = 0; i < this->libros.size(); i++)
     {
-      Libro tmp = this->libros[i];
-      if (tmp.getTitle() == title)
-      {
-        index = i;
-        break;
-      }
+      this->libros[i].print();
     }
-    return index;
   }
 };
 
@@ -172,60 +171,75 @@ private:
   vector<Estante> estantes;
 
 public:
-  Biblioteca(string nombre, vector<Estante> estantes)
+  Biblioteca()
   {
-    this->nombre = nombre;
-    this->estantes = estantes;
+    this->nombre = "";
   }
 
-  void setNombre(string nombre) { this->nombre = nombre; }
-  void setEstantes(vector<Estante> estantes) { this->estantes = estantes; }
-  string getNombre() { return this->nombre; }
-  vector<Estante> getEstantes() { return this->estantes; }
+  Biblioteca(string nombre)
+  {
+    this->nombre = nombre;
+  }
+
+  string getNombre() const { return this->nombre; }
 
   void agregarEstante(Estante estante)
   {
     this->estantes.push_back(estante);
   }
 
-  void buscarLibro(string title)
+  int cantidadEstantes() const
   {
-    int indexEstante = -1;
-    int indexLibro = -1;
+    return this->estantes.size();
+  }
+
+  void listarTodo()
+  {
+    cout << "Biblioteca: " << this->nombre << endl;
     for (int i = 0; i < this->estantes.size(); i++)
     {
-      Estante tmp = this->estantes[i];
-      int tmpIndex = tmp.buscarLibro(title);
-      if (tmpIndex >= 0)
-      {
-        indexLibro = tmpIndex;
-        indexEstante = i;
-        break;
-      }
-    }
-    if(indexEstante >=0){
-      cout << "El libro " << title << ", se encuentra en la estanteria " 
-        << this->estantes[indexEstante].getNombre() 
-        << " en la posición " << indexLibro << endl;
-    } else{
-      cout << "El libro no está en la biblioteca" << endl;
+      this->estantes[i].listarLibros();
     }
   }
 };
 
 int main()
 {
-  Libro myBook;
+  Autor autor1("Fiodor Dostoievsky", "Rusia", "1700-01-01", "1763-01-01", 10);
+  Autor autor2("Jorge Luis Borges", "Argentina", "1899-08-24", "1986-06-14", 15);
+  Autor autor3("Gabriel Garcia Marquez", "Colombia", "1927-03-06", "2014-04-17", 20);
 
-  myBook.setTitle("El jugador");
-  // myBook.setAuthor("Fiodor Dostoievsky");
-  myBook.setReleaseYear(1861);
-  myBook.setISBN("ISBN_FAKE");
-  myBook.setStock(20);
+  Libro libro1("El jugador", autor1, 5);
+  Libro libro2("Ficciones", autor2, 3);
+  Libro libro3("El Aleph", autor2);
+  Libro libro4("Cien anios de soledad", autor3, 2);
+  Libro libro5;
+  libro5.setTitle("Sin autor asignado");
+  libro5.setReleaseYear(2020);
+  libro5.setISBN("ISBN_TEST");
+  libro5.setStock(1);
 
-  Autor autor("Fiodor Dostoievsky", "Rusia", "1700-01-01", "1763-01-01", 10);
-  myBook.setAuthor(autor);
-  // Imprimir la data del libro
-  myBook.print();
+  Estante estanteA("Estante A - Literatura Rusa");
+  estanteA.agregarLibro(libro1);
+
+  Estante estanteB("Estante B - Literatura Latinoamericana");
+  estanteB.agregarLibro(libro2);
+  estanteB.agregarLibro(libro3);
+  estanteB.agregarLibro(libro4);
+
+  Estante estanteC("Estante C - Sin clasificar");
+  estanteC.agregarLibro(libro5);
+
+  Biblioteca biblioteca("Biblioteca Central Unicauca");
+  biblioteca.agregarEstante(estanteA);
+  biblioteca.agregarEstante(estanteB);
+  biblioteca.agregarEstante(estanteC);
+
+  cout << "Cantidad de estantes en la biblioteca: " << biblioteca.cantidadEstantes() << endl;
+  cout << "Cantidad de libros en estanteB: " << estanteB.cantidadLibros() << endl;
+  cout << "----------------------------------------" << endl;
+
+  biblioteca.listarTodo();
+
   return 0;
 }
