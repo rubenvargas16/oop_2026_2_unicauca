@@ -1,0 +1,17 @@
+# --- VS Code ---
+# La carpeta .vscode es local a cada persona: se crea renombrando
+# .vscode_macos/ o .vscode_windows/ (según el sistema operativo) a .vscode.
+# Esas plantillas sí se versionan; la carpeta activa .vscode no.
+.vscode/
+
+# --- Configuración de agentes de IA ---
+.claude/
+CLAUDE.md
+.cursor/
+.cursorrules
+.windsurf/
+.windsurfrules
+.aider*
+
+# --- macOS ---
+.DS_Store
