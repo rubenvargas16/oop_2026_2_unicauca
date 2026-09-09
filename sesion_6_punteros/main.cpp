@@ -203,29 +203,91 @@ public:
         break;
       }
     }
-    if(indexEstante >=0){
-      cout << "El libro " << title << ", se encuentra en la estanteria " 
-        << this->estantes[indexEstante].getNombre() 
-        << " en la posición " << indexLibro << endl;
-    } else{
+    if (indexEstante >= 0)
+    {
+      cout << "El libro " << title << ", se encuentra en la estanteria "
+           << this->estantes[indexEstante].getNombre()
+           << " en la posición " << indexLibro << endl;
+    }
+    else
+    {
       cout << "El libro no está en la biblioteca" << endl;
     }
   }
 };
+
+//Demo 1 del porqué de la necesidad de punteros.
+void intentarCambiarStock(Libro libro, int nuevoStock)
+{
+  libro.setStock(nuevoStock);
+  cout << "  [Dentro de la funcion] Stock del libro (copia local): "
+       << libro.getStock() << endl;
+}
+
+//Demo 2 de porque usar punteros en vez de variabls en el heap
+void intentarAgregarLibro(Estante estante, Libro libro)
+{
+  estante.agregarLibro(libro);
+  cout << "  [Dentro de la funcion] El estante (copia local) recibio el libro." << endl;
+}
 
 int main()
 {
   Libro myBook;
 
   myBook.setTitle("El jugador");
-  // myBook.setAuthor("Fiodor Dostoievsky");
   myBook.setReleaseYear(1861);
   myBook.setISBN("ISBN_FAKE");
   myBook.setStock(20);
 
   Autor autor("Fiodor Dostoievsky", "Rusia", "1700-01-01", "1763-01-01", 10);
   myBook.setAuthor(autor);
-  // Imprimir la data del libro
   myBook.print();
+
+  cout << "\n========================================" << endl;
+  cout << "DEMOSTRACION 1: scope de funcion (Libro)" << endl;
+  cout << "========================================" << endl;
+
+  cout << "Stock de myBook antes de llamar la funcion: " << myBook.getStock() << endl;
+  intentarCambiarStock(myBook, 999);
+  cout << "Stock de myBook despues de llamar la funcion: " << myBook.getStock() << endl;
+  //cout << "(No cambio: la funcion solo modifico su copia local, que ya no existe)" << endl;
+
+  cout << "* DEMOSTRACION 2: scope en la funcion (Estante)" << endl;
+
+  vector<Libro> librosIniciales; // vector vacio
+  Estante estanteA("Estante A", librosIniciales);
+
+  cout << "Busqueda ANTES de llamar la funcion:" << endl;
+  estanteA.buscarLibro("El jugador"); // no imprime nada por si sola, usamos el resultado
+  cout << "  Posicion encontrada: " << estanteA.buscarLibro("El jugador") << " (-1 = no existe)" << endl;
+
+  intentarAgregarLibro(estanteA, myBook);
+
+  cout << "Busqueda DESPUES de llamar la funcion:" << endl;
+  cout << "  Posicion encontrada: " << estanteA.buscarLibro("El jugador") << " (-1 = no existe)" << endl;
+  cout << "(Sigue en -1: el libro se agrego a la copia local del estante, no al real)" << endl;
+
+  cout << "\n========================================" << endl;
+  cout << "DEMOSTRACION 3: scope de un ciclo/bloque" << endl;
+  cout << "========================================" << endl;
+
+  // Agregamos ahora si el libro al estante real (en el scope de main).
+  estanteA.agregarLibro(myBook);
+  cout << "Se agrego myBook directamente en main. Stock real guardado: "
+       << estanteA.getLibros()[0].getStock() << endl;
+
+  cout << "\nAhora intentamos modificar el stock recorriendo el vector con un ciclo:" << endl;
+  vector<Libro> copiaTemporal = estanteA.getLibros(); // getLibros() devuelve una COPIA del vector completo
+  for (int i = 0; i < copiaTemporal.size(); i++)
+  {
+    copiaTemporal[i].setStock(1);
+    cout << "  [Dentro del ciclo] Stock modificado a: " << copiaTemporal[i].getStock() << endl;
+  } // <- aqui termina el scope de "copiaTemporal". Se destruye junto con los cambios hechos en el ciclo.
+
+  cout << "Stock real dentro del estante DESPUES del ciclo: "
+       << estanteA.getLibros()[0].getStock() << endl;
+  cout << "(Sigue igual: el ciclo modifico una copia del vector, obtenida por valor con getLibros())" << endl;
+
   return 0;
 }
