@@ -130,25 +130,25 @@ class Estante
 {
 private:
   string nombre;
-  vector<Libro> libros;
+  vector<Libro*> libros;
 
 public:
   Estante(string nombre){
     this->nombre = nombre;
   }
 
-  Estante(string nombre, vector<Libro> libros)
+  Estante(string nombre, vector<Libro*> libros)
   {
     this->nombre = nombre;
     this->libros = libros;
   }
 
   void setNombre(string nombre) { this->nombre = nombre; }
-  void setVector(vector<Libro> libros) { this->libros = libros; }
+  void setVector(vector<Libro*> libros) { this->libros = libros; }
   string getNombre() { return this->nombre; }
-  vector<Libro> getLibros() { return this->libros; }
+  vector<Libro*> getLibros() { return this->libros; }
 
-  void agregarLibro(Libro libro)
+  void agregarLibro(Libro *libro)
   {
     this->libros.push_back(libro);
   }
@@ -158,8 +158,8 @@ public:
     int index = -1;
     for (int i = 0; i < this->libros.size(); i++)
     {
-      Libro tmp = this->libros[i];
-      if (tmp.getTitle() == title)
+      Libro *tmp = this->libros[i];
+      if (tmp->getTitle() == title)
       {
         index = i;
         break;
@@ -269,5 +269,7 @@ int main()
   myBook.setTitle("Nombre diferente");
   cout << "Nombre del libro en estante: " << estante.getLibros()[0].getTitle() << endl;
   cout << "Nombre del libro en main: " << myBook.getTitle() << endl;
+
+  cout << "Nombre del libro en estante2: " << estante.getLibros()[0].getTitle() << endl;
   return 0;
 }
