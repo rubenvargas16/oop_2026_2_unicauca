@@ -229,7 +229,7 @@ void intentarCambiarStock(Libro *libro, int nuevoStock)
 }
 
 //Demo 2 de porque usar punteros en vez de variabls en el heap
-void intentarAgregarLibro(Estante estante, Libro libro)
+void intentarAgregarLibro(Estante estante, Libro *libro)
 {
   estante.agregarLibro(libro);
   cout << "  [Dentro de la funcion] El estante (copia local) recibio el libro." << endl;
@@ -263,13 +263,12 @@ int main()
   intentarCambiarStock(myBookPointer, 10);
   cout << myBook.getStock() << endl;
 
-  
   Estante estante("Estante prueba");
-  estante.agregarLibro(myBook);
+  estante.agregarLibro(&myBook);
   myBook.setTitle("Nombre diferente");
-  cout << "Nombre del libro en estante: " << estante.getLibros()[0].getTitle() << endl;
+  cout << "Nombre del libro en estante: " << estante.getLibros()[0]->getTitle() << endl;
   cout << "Nombre del libro en main: " << myBook.getTitle() << endl;
 
-  cout << "Nombre del libro en estante2: " << estante.getLibros()[0].getTitle() << endl;
+  cout << "Nombre del libro en estante2: " << estante.getLibros()[0]->getTitle() << endl;
   return 0;
 }
