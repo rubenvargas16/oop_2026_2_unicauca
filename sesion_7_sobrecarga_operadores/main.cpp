@@ -44,7 +44,11 @@ public:
   string getFechaMuerte() { return this->fechaMuerte; }
   int getLibrosPublicados() { return this->librosPublicados; }
 
-  void print()
+  void print(){
+    cout << this->nombre << endl;
+  }
+
+  void print(bool detalle)
   {
     cout << "Informacion del autor" << endl;
     cout << "Nombre: " << this->nombre << endl;
@@ -124,6 +128,28 @@ public:
     cout << "ISBN: " << this->isbn << endl;
     cout << "Stock: " << this->stock << endl;
   }
+  bool operator==(const Libro &otro){
+    return this->isbn == otro.getISBN();
+  }
+  bool operator!=(const Libro &otro){
+    //return this->isbn != otro.getISBN();
+    return !(*this == otro);
+  }
+  bool operator<(const Libro &otro){
+    return this->title < otro.getTitle();
+  }
+  Libro &operator+=(int cantidad){
+    if(cantidad + this->stock < 0){ cout << "Operación no válida" << endl; return *this; }
+    this->stock += cantidad;
+    return *this;
+  }
+  Libro &operator-=(int cantidad){
+    if(this->stock - cantidad < 0){ cout << "Operación no válida" << endl; return *this; }
+    this->stock -= cantidad;
+    return *this;
+  }
+
+  friend ostream &operator<<(ostream &os, const Libro &libro);
 };
 
 class Estante
@@ -228,10 +254,15 @@ void intentarCambiarStock(Libro *libro, int nuevoStock)
        << libro->getStock() << endl;
 }
 
+ostream &operator<<(ostream &os, const Libro &libro){
+  os << libro.title << "/" << libro.getAuthor().getNombre() << "/" << libro.isbn
+    << libro.stock ;
+  return os;
+}
+
 int main()
 {
   Libro myBook;
-
   myBook.setTitle("El jugador");
   myBook.setReleaseYear(1861);
   myBook.setISBN("ISBN_FAKE");
@@ -239,29 +270,14 @@ int main()
 
   Autor autor("Fiodor Dostoievsky", "Rusia", "1700-01-01", "1763-01-01", 10);
   myBook.setAuthor(autor);
-  myBook.print();
+  Libro myBook2("El jugador", autor, 10);
+  myBook2.setISBN("ISBN-FAKE-2");
+  //cout << (myBook == myBook2 ? "Son iguales" : "No son iguales") << endl;
 
-  Libro *myBookPointer = &myBook;
-
-  cout << "DIR_MEMORIA: " << &myBook << endl;
-  Libro myBook2 = myBook;
-
-  
-  cout << myBook.getTitle() << endl;
-  cout << (*myBookPointer).getTitle() << endl;
-  cout << myBookPointer->getTitle() << endl;
-
-  intentarCambiarStock(&myBook, 14);
-  cout << myBook.getStock() << endl;
-  intentarCambiarStock(myBookPointer, 10);
-  cout << myBook.getStock() << endl;
-
-  Estante estante("Estante prueba");
-  estante.agregarLibro(&myBook);
-  myBook.setTitle("Nombre diferente");
-  cout << "Nombre del libro en estante: " << estante.getLibros()[0]->getTitle() << endl;
-  cout << "Nombre del libro en main: " << myBook.getTitle() << endl;
-
-  cout << "Nombre del libro en estante2: " << estante.getLibros()[0]->getTitle() << endl;
+  //myBook2.print();
+  cout << myBook2 << endl;
+  myBook2+=(-25);
+  cout << myBook2 << endl;
+  //myBook2.print();
   return 0;
 }
