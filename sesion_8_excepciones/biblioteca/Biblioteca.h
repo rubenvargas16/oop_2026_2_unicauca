@@ -7,14 +7,14 @@ class Biblioteca
 {
 private:
   string nombre;
-  vector<Estante> estantes;
+  vector<Estante *> estantes;
 
 public:
-  Biblioteca(string nombre, vector<Estante> estantes);
+  Biblioteca(string nombre, vector<Estante *> estantes);
   void setNombre(string nombre);
-  void setEstantes(vector<Estante> estantes);
+  void setEstantes(vector<Estante *> estantes);
   string getNombre();
-  vector<Estante> getEstantes();
-  void agregarEstante(Estante estante);
+  vector<Estante *> getEstantes();
+  void agregarEstante(Estante *estante);
   void buscarLibro(string title);
 };

@@ -2,12 +2,12 @@
   "tasks": [
     {
       "type": "cppbuild",
-      "label": "C/C++: g++.exe compilar archivo activo",
+      "label": "C/C++: g++.exe compilar directorio de archivo activo",
       "command": "C:\\MinGW\\bin\\g++.exe",
       "args": [
         "-fdiagnostics-color=always",
         "-g",
-        "${file}",
+        "${fileDirname}\\*.cpp",
         "-o",
         "${fileDirname}\\${fileBasenameNoExtension}.exe"
       ],
@@ -21,7 +21,7 @@
         "kind": "build",
         "isDefault": true
       },
-      "detail": "Tarea generada por el depurador. Usa MinGW desde C:\\MinGW aunque no esté en el PATH."
+      "detail": "Tarea generada por el depurador. Compila todos los .cpp de la carpeta del archivo activo. Usa MinGW desde C:\\MinGW aunque no esté en el PATH."
     }
   ],
   "version": "2.0.0"

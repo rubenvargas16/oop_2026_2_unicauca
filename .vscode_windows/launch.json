@@ -20,7 +20,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "C/C++: g++.exe compilar archivo activo"
+      "preLaunchTask": "C/C++: g++.exe compilar directorio de archivo activo"
     }
   ]
 }

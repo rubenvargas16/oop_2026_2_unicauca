@@ -8,8 +8,8 @@ int main()
   Estante estante("Estante A");
   estante.agregarLibro(&libro);
 
-  vector<Estante> estantes;
-  estantes.push_back(estante);
+  vector<Estante *> estantes;
+  estantes.push_back(&estante);
   Biblioteca biblioteca("Biblioteca Central", estantes);
 
   libro.print();
