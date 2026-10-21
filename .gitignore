@@ -15,3 +15,7 @@ CLAUDE.md
 
 # --- macOS ---
 .DS_Store
+
+# --- Revisión docente de sustentaciones (uso interno, no compartir) ---
+primer_corte/plantilla_sustentacion.md
+primer_corte/*/docs/sustentacion_revision.md
