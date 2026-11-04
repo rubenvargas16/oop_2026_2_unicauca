@@ -1,3 +1,4 @@
+#pragma once
 #include "Vehiculo.hpp"
 #include "Variante.hpp"
 

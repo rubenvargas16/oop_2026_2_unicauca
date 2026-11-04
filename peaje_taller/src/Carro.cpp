@@ -1,5 +1,5 @@
 #include "Carro.hpp"
-#include "Excepciones.cpp"
+#include "Excepciones.hpp"
 #include "Variante.hpp"
 
 Carro::Carro(string placa, int pasajeros) : Vehiculo(placa){
@@ -33,5 +33,5 @@ int Carro::cobrar() const{
 }
 
 string Carro::resumen() const {
-  cout << Vehiculo::resumen() + ", pasajeros: " + to_string(this->pasajeros);
+  return Vehiculo::resumen() + ", pasajeros: " + to_string(this->pasajeros);
 }

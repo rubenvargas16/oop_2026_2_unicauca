@@ -21,6 +21,7 @@ string Vehiculo::resumen() const {
   return this->getTipo() + " " + this->getPlaca();
 }
 
-const ostream &operator<<(ostream &os, Vehiculo &vehiculo){
+ostream &operator<<(ostream &os, const Vehiculo &vehiculo){
   os << vehiculo.resumen();
+  return os;
 }
