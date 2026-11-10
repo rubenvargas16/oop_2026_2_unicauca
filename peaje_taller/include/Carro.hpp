@@ -8,6 +8,8 @@ class Carro : public Vehiculo{
   public:
     Carro(string placa, int pasajeros);
     ~Carro() override;
+
+    //Mi ultima linea para el punto R6asdsadasd
     int getPasajeros() const;
     void setPasajeros(int pasajeros);
     
