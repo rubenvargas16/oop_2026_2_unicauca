@@ -5,8 +5,12 @@
 using namespace std;
 
 int main(){
-  Vehiculo *v = new Carro("ABC123", 2);
-  cout << *v << endl;
+  try{
+    Vehiculo *v = new Carro("3", 2);
+    cout << *v << endl;
+  } catch(exception &e){
+    cout << e.what() << endl;
+  }
   
   return 0;
 }
